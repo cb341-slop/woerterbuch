@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Usage: bin/serve-dictionary [PORT] [DATABASE]
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+PORT="${1:-8765}"
+DATABASE="${2:-$ROOT/word_index/lookup.sqlite3}"
+
+if [ "${1:-}" = "--help" ] || [ "${1:-}" = "-h" ]; then
+    echo "usage: bin/serve-dictionary [PORT] [DATABASE]"
+    exit 0
+fi
+
+if [ "$#" -gt 2 ]; then
+    echo "usage: bin/serve-dictionary [PORT] [DATABASE]" >&2
+    exit 2
+fi
+
+if ! command -v python3 >/dev/null 2>&1; then
+    echo "python3 not found. Install Python 3 to run the dictionary server." >&2
+    exit 1
+fi
+
+if [ ! -f "$DATABASE" ]; then
+    echo "database not found: $DATABASE" >&2
+    echo "run bin/update-sqlite first" >&2
+    exit 1
+fi
+
+PYTHONDONTWRITEBYTECODE=1 exec python3 "$ROOT/scripts/serve_dictionary.py" \
+    "$PORT" "$DATABASE"

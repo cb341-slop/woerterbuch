@@ -1,0 +1,6 @@
+{
+  "Aal": "https://example.invalid/Aal",
+  "schön": "https://example.invalid/sch%C3%B6n",
+  "Straße": "https://example.invalid/Stra%C3%9Fe",
+  "Zug": "https://example.invalid/Zug"
+}

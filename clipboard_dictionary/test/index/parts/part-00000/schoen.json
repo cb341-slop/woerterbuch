@@ -1,0 +1,53 @@
+{
+  "schema_version": 2,
+  "query": {
+    "word": "schön",
+    "requested_url": "https://www.dwds.de/wb/etymwb/sch%C3%B6n",
+    "match_type": "exact_headword",
+    "matched_headword_index": 0
+  },
+  "source": {
+    "provider": "DWDS",
+    "collection": "Etymologisches Wörterbuch",
+    "attribution": "Etymologisches Wörterbuch (Wolfgang Pfeifer)",
+    "canonical_url": "https://www.dwds.de/wb/etymwb/sch%C3%B6n",
+    "citation": "Test citation",
+    "tdm": {
+      "reservation": "1",
+      "policy_url": "https://www.dwds.de/dwds_static/tdm-policy.json"
+    }
+  },
+  "article": {
+    "title": "schön",
+    "text": "schön Adj. von angenehmer Wirkung."
+  },
+  "headwords": [
+    {
+      "word": "schön",
+      "grammar": {
+        "label": "Adj.",
+        "description": "Adjektiv",
+        "part_of_speech": "adjective"
+      },
+      "text": "schön Adj. von angenehmer Wirkung."
+    },
+    {
+      "word": "Schönheit",
+      "grammar": {
+        "label": "f.",
+        "description": "Femininum",
+        "part_of_speech": "noun",
+        "gender": "feminine"
+      },
+      "text": "Schönheit f. das Schönsein."
+    }
+  ],
+  "mentioned_forms": ["scōni"],
+  "links": [
+    {
+      "text": "schauen",
+      "url": "https://www.dwds.de/wb/etymwb/schauen",
+      "relation": "cross_reference"
+    }
+  ]
+}

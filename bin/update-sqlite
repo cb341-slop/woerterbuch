@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Usage: bin/update-sqlite [INDEX_DIR] [DATABASE]
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+
+if [ "${1:-}" = "--help" ] || [ "${1:-}" = "-h" ]; then
+    echo "usage: bin/update-sqlite [INDEX_DIR] [DATABASE]"
+    exit 0
+fi
+
+INDEX_DIR="${1:-$ROOT/word_index}"
+DATABASE="${2:-$INDEX_DIR/lookup.sqlite3}"
+DEFAULT_DATABASE="$ROOT/word_index/lookup.sqlite3"
+
+if [ "$#" -gt 2 ]; then
+    echo "usage: bin/update-sqlite [INDEX_DIR] [DATABASE]" >&2
+    exit 2
+fi
+
+if ! command -v python3 >/dev/null 2>&1; then
+    echo "python3 not found. Install Python 3 to update the SQLite index." >&2
+    exit 1
+fi
+
+if [ ! -f "$INDEX_DIR/manifest.jsonl" ]; then
+    echo "manifest not found: $INDEX_DIR/manifest.jsonl" >&2
+    exit 1
+fi
+
+PYTHONDONTWRITEBYTECODE=1 python3 "$ROOT/scripts/update_sqlite.py" \
+    "$INDEX_DIR" "$DATABASE"
+
+if [ "$DATABASE" = "$DEFAULT_DATABASE" ]; then
+    "$ROOT/bin/build-web-index" "$DATABASE" "$ROOT/word_index/web-index.js"
+fi

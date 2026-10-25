@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+import json
+import sys
+
+word = sys.argv[1]
+if word == "unbekannt":
+    json.dump({"status": "not_found", "matches": []}, sys.stdout)
+    raise SystemExit(3)
+
+if word == "kaputt":
+    json.dump({
+        "status": "unavailable",
+        "matches": [{"word": word, "available": False, "record": None}],
+        "fetch_errors": [{"word": word, "error": "simulated fetch failure"}],
+    }, sys.stdout)
+    raise SystemExit(4)
+
+record = {
+    "schema_version": 2,
+    "query": {
+        "word": word,
+        "requested_url": f"https://example.invalid/{word}",
+        "match_type": "exact_headword",
+        "matched_headword_index": 0,
+    },
+    "source": {
+        "provider": "DWDS",
+        "collection": "Etymologisches Wörterbuch",
+        "canonical_url": f"https://example.invalid/{word}",
+    },
+    "article": {"title": word, "text": f"Fetched entry for {word}."},
+    "headwords": [{
+        "word": word,
+        "grammar": {"label": "", "part_of_speech": "unknown"},
+        "text": f"Fetched entry for {word}.",
+    }],
+    "mentioned_forms": [],
+    "links": [],
+}
+json.dump({
+    "status": "ok",
+    "matches": [{"word": word, "available": True, "record": record}],
+}, sys.stdout)

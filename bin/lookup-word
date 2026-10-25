@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Usage: bin/lookup-word <word> [DATABASE]
+#        bin/lookup-word --list [DATABASE]
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+
+if [ "${1:-}" = "--help" ] || [ "${1:-}" = "-h" ]; then
+    echo "usage: bin/lookup-word <word> [DATABASE]"
+    echo "       bin/lookup-word --list [DATABASE]"
+    exit 0
+fi
+
+if [ "$#" -lt 1 ] || [ "$#" -gt 2 ] || [ -z "$1" ]; then
+    echo "usage: bin/lookup-word <word> [DATABASE]" >&2
+    echo "       bin/lookup-word --list [DATABASE]" >&2
+    exit 2
+fi
+
+COMMAND="$1"
+DATABASE="${2:-$ROOT/word_index/lookup.sqlite3}"
+
+if ! command -v python3 >/dev/null 2>&1; then
+    echo "python3 not found. Install Python 3 to query the SQLite index." >&2
+    exit 1
+fi
+
+if [ ! -f "$DATABASE" ]; then
+    echo "database not found: $DATABASE" >&2
+    echo "run bin/update-sqlite first" >&2
+    exit 1
+fi
+
+PYTHONDONTWRITEBYTECODE=1 exec python3 "$ROOT/scripts/lookup_word.py" \
+    "$COMMAND" "$DATABASE"

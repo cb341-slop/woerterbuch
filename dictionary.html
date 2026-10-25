@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wörterbuch</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%231b1b1b'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='monospace' font-size='42' fill='white'%3EW%3C/text%3E%3C/svg%3E">
+  <script>
+    location.replace(`index.html${location.search}${location.hash}`);
+  </script>
+  <style>
+    :root { color-scheme: light dark; font-family: ui-monospace, monospace; }
+    * { box-sizing: border-box; }
+    body { max-width: 72rem; margin: 0 auto; padding: 1rem; background: Canvas; color: CanvasText; }
+    h1, h2, h3 { margin: 0 0 .75rem; }
+    form, fieldset, section, details { margin: 0 0 1rem; }
+    fieldset, article, details { border: 1px solid GrayText; padding: .75rem; }
+    label { display: block; margin-bottom: .25rem; }
+    input, select, button { font: inherit; border-radius: 0; }
+    input[type="search"] { width: min(100%, 34rem); padding: .45rem; }
+    button, select { padding: .4rem .6rem; }
+    button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible { outline: 2px solid Highlight; outline-offset: 2px; }
+    output { display: block; min-height: 1.5rem; margin-top: .5rem; }
+    output[data-kind="error"] { color: #b00020; }
+    output[data-kind="ok"] { color: #18752c; }
+    .controls { display: flex; flex-wrap: wrap; gap: .5rem; align-items: end; }
+    .grow { flex: 1 1 22rem; }
+    [hidden] { display: none !important; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: .25rem .4rem; border: 1px solid GrayText; text-align: left; vertical-align: top; }
+    th { width: 13rem; }
+    p, li, td { overflow-wrap: anywhere; }
+    .entry-text { white-space: pre-wrap; line-height: 1.45; }
+    .headword + .headword { border-top: 1px solid GrayText; padding-top: .75rem; }
+    ul { padding-left: 1.4rem; }
+    a { color: LinkText; text-decoration: underline; }
+    small { color: GrayText; }
+    @media (prefers-color-scheme: dark) {
+      output[data-kind="error"] { color: #ff8a8a; }
+      output[data-kind="ok"] { color: #7bd88f; }
+    }
+  </style>
+  <script src="word_index/web-index.js" defer></script>
+  <script src="dictionary-index.js" defer></script>
+  <script src="dictionary.js" defer></script>
+</head>
+<body>
+  <main>
+    <h1>Wörterbuch</h1>
+    <form id="lookup-form">
+      <fieldset>
+        <legend>Lookup</legend>
+        <div class="controls">
+          <div class="grow">
+            <label for="word">German word</label>
+            <input id="word" name="word" type="search" list="suggestions" autocomplete="off" autofocus required>
+            <datalist id="suggestions"></datalist>
+          </div>
+          <button type="submit">Look up</button>
+          <button id="paste" type="button">Paste and look up</button>
+        </div>
+        <output id="status" aria-live="polite">Connecting to the index…</output>
+      </fieldset>
+    </form>
+
+    <section id="results" hidden aria-labelledby="result-title">
+      <div class="controls">
+        <div class="grow">
+          <h2 id="result-title">Result</h2>
+          <small id="result-summary"></small>
+        </div>
+        <div id="match-control" hidden>
+          <label for="match">Match</label>
+          <select id="match"></select>
+        </div>
+      </div>
+      <article id="record"></article>
+    </section>
+  </main>
+</body>
+</html>

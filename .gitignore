@@ -1,0 +1,25 @@
+.DS_Store
+.ignored/
+__pycache__/
+*.py[cod]
+*.dSYM/
+*.log
+*.sqlite3
+*.sqlite3-shm
+*.sqlite3-wal
+
+# Compiled applications and executables
+/extract_word/bin/
+/bulk_download/bin/
+/clipboard_dictionary/build/
+
+# Downloaded and generated dictionary indexes
+/word_index/
+/bulk_download/word_index/
+
+# Saved third-party pages; tests use a synthetic fixture instead
+/example.html
+/extract_word/example.html
+
+# This is a text marker used by the native-app fixture, not a database.
+!/clipboard_dictionary/test/index/lookup.sqlite3
